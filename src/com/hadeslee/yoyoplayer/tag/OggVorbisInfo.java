@@ -197,7 +197,8 @@ public class OggVorbisInfo implements TagInfo {
                 comments.add((String) props.get("comment"));
             }
             if (props.containsKey("duration")) {
-                totalms = (long) Math.round((((Long) props.get("duration")).longValue()) / 1000000);
+            	float temp = (((Long) props.get("duration")).longValue()) / 1000000;
+                totalms = (long) Math.round(temp);
             }
             if (props.containsKey("ogg.comment.genre")) {
                 genre = (String) props.get("ogg.comment.genre");

@@ -23,6 +23,8 @@
  */
 package com.hadeslee.audiotag.tag.datatype;
 
+import java.util.Arrays;
+
 import com.hadeslee.audiotag.tag.id3.AbstractTagFrameBody;
 import com.hadeslee.audiotag.tag.InvalidDataTypeException;
 import com.hadeslee.audiotag.audio.generic.Utils;
@@ -124,6 +126,17 @@ public class Lyrics3TimeStamp extends AbstractDataType
         second = timeStamp % 60;
     }
 
+
+
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (minute ^ (minute >>> 32));
+		result = prime * result + (int) (second ^ (second >>> 32));
+		return result;
+	}
+
     /**
      * 
      *
@@ -152,7 +165,7 @@ public class Lyrics3TimeStamp extends AbstractDataType
         return super.equals(obj);
     }
 
-    /**
+	/**
      * 
      *
      * @param timeStamp
@@ -243,7 +256,7 @@ public class Lyrics3TimeStamp extends AbstractDataType
 
     public void readByteArray(byte[] arr, int offset) throws InvalidDataTypeException
     {
-        readString(arr.toString(), offset);
+        readString(Arrays.toString(arr), offset);
     }
 
     public byte[] writeByteArray()

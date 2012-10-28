@@ -129,6 +129,17 @@ public class GroupRepeated
         propertyList.add(obj);
     }
 
+
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((objectList == null) ? 0 : objectList.hashCode());
+		result = prime * result
+				+ ((propertyList == null) ? 0 : propertyList.hashCode());
+		return result;
+	}
+
     /**
      * 
      *
@@ -153,7 +164,7 @@ public class GroupRepeated
         return super.equals(obj);
     }
 
-    /**
+	/**
      * 
      *
      * @param arr    

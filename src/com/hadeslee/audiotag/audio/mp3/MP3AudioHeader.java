@@ -69,13 +69,13 @@ public final class MP3AudioHeader implements AudioHeader
     private long    bitrate;
     private String  encoder ="";
 
-    private static final SimpleDateFormat timeInFormat    = new SimpleDateFormat("ss");
-    private static final SimpleDateFormat timeOutFormat   = new SimpleDateFormat("mm:ss");
+    private final SimpleDateFormat timeInFormat    = new SimpleDateFormat("ss");
+    private final SimpleDateFormat timeOutFormat   = new SimpleDateFormat("mm:ss");
     private static final char             isVbrIdentifier = '~';
     private static final int              CONVERT_TO_KILOBITS = 1000;
     private static final String           TYPE_MP3 = "mp3";
     private static final int              CONVERTS_BYTE_TO_BITS = 8;
-
+    
      //Logger
      public static Logger logger = Logger.getLogger("com.hadeslee.jaudiotagger.audio.mp3");
 

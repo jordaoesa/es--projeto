@@ -78,6 +78,14 @@ public class BooleanByte extends AbstractDataType
         return 1;
     }
 
+
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + bitPosition;
+		return result;
+	}
+
     /**
      * 
      *
@@ -101,7 +109,7 @@ public class BooleanByte extends AbstractDataType
         return super.equals(obj);
     }
 
-    /**
+	/**
      * 
      *
      * @param arr
@@ -157,4 +165,6 @@ public class BooleanByte extends AbstractDataType
 
         return retValue;
     }
+    
+    
 }

@@ -130,7 +130,7 @@ public class VorbisIdentificationHeader implements VorbisHeader
        
         if (packetType == VorbisPacketType.IDENTIFICATION_HEADER.getType() && vorbis.equals(CAPTURE_PATTERN ))
         {
-            this.vorbisVersion = b[7] + (b[8] << 8) + (b[9] << 16) + (b[10] << 24);
+            this.vorbisVersion = (b[7] & 0xff) + (b[8] << 8) + (b[9] << 16) + (b[10] << 24);
             logger.fine("vorbisVersion" +vorbisVersion );
             this.audioChannels = u(b[FIELD_AUDIO_CHANNELS_POS]);
             logger.fine("audioChannels" +audioChannels );

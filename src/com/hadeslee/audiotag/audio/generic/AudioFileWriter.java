@@ -124,7 +124,7 @@ public abstract class AudioFileWriter
                     rafTemp.close();
                 }
 
-                if (tempF.length() > 0 && !revert)
+                if (tempF != null && tempF.length() > 0 && !revert)
                 {
                     f.getFile().delete();
                     tempF.renameTo(f.getFile());
@@ -132,7 +132,7 @@ public abstract class AudioFileWriter
                 }
                 else
                 {
-                    tempF.delete();
+                    if(tempF != null) tempF.delete();
                 }
             }
             catch (Exception ex)
@@ -271,7 +271,7 @@ public abstract class AudioFileWriter
                 }
 
                 //If the tempoaray file was used and there were no problems replace original file with it
-                if (!cannotWrite && tempF.length() > 0)
+                if (!cannotWrite && tempF != null && tempF.length() > 0)
                 {
                     af.getFile().delete();
                     tempF.renameTo(af.getFile());
@@ -281,7 +281,7 @@ public abstract class AudioFileWriter
                 //in either case delete the temp file.
                 else
                 {                       
-                    tempF.delete();
+                    if(tempF != null) tempF.delete();
                 }
             }
             catch (Exception ex)

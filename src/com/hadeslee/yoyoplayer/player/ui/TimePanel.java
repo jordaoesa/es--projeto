@@ -193,6 +193,7 @@ public class TimePanel extends JPanel implements MouseListener {
                         Thread.sleep(1000);
                         tp.setTime(time++);
                     } catch (Exception exe) {
+                    	System.err.println(exe.getMessage());
                     }
                 }
             }

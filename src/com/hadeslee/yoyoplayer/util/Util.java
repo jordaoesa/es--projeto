@@ -153,9 +153,9 @@ public final class Util {
         }
         Color[] cs = new Color[count];
         int half = count / 2;
-        float addR = (c2.getRed() - c1.getRed()) * 1.0f / half;
-        float addG = (c2.getGreen() - c1.getGreen()) * 1.0f / half;
-        float addB = (c2.getBlue() - c1.getBlue()) * 1.0f / half;
+        double addR = (c2.getRed() - c1.getRed()) * 1.0f / half;
+        double addG = (c2.getGreen() - c1.getGreen()) * 1.0f / half;
+        double addB = (c2.getBlue() - c1.getBlue()) * 1.0f / half;
 //        log.log(Level.INFO, "addR="+addR+",addG="+addG+",addB="+addB);
         int r = c1.getRed();
         int g = c1.getGreen();
@@ -863,7 +863,7 @@ public final class Util {
      * @param f 比例
      * @return 新的颜色
      */
-    public static Color getGradientColor(Color c1, Color c2, float f) {
+    public static Color getGradientColor(Color c1, Color c2, double f) {
         int deltaR = c2.getRed() - c1.getRed();
         int deltaG = c2.getGreen() - c1.getGreen();
         int deltaB = c2.getBlue() - c1.getBlue();
@@ -1136,7 +1136,9 @@ public final class Util {
                 content = m.group();
             }
         }
-        return htmlTrim2(content);
+        if(content != null)
+        	return htmlTrim2(content);
+        return null;
     }
 
     /**

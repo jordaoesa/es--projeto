@@ -49,7 +49,6 @@ public class FlacFileReader extends AudioFileReader
     }
      public static void main(String[] args)throws Exception {
         RandomAccessFile rf=new RandomAccessFile("D:\\执着.flac", "rw");
-        RandomAccessFile temp=new RandomAccessFile("D:\\temp.tmp","rw");
         FlacTagReader reader=new FlacTagReader();
         String s=reader.read(rf).getFirstTitle();
         System.out.println(s);

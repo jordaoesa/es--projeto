@@ -352,7 +352,8 @@ public class MpegInfo implements TagInfo {
 
             }
             if (props.containsKey("duration")) {
-                total = (long) Math.round((((Long) props.get("duration")).longValue()) / 1000000);
+            	float temp = (((Long) props.get("duration")).longValue()) / 1000000;
+                total = (long) Math.round(temp);
             }
             if (props.containsKey("mp3.id3tag.genre")) {
                 genre = (String) props.get("mp3.id3tag.genre");

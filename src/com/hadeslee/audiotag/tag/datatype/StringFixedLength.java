@@ -61,6 +61,12 @@ public class StringFixedLength
         super(copyObject);
         this.size = copyObject.size;
     }
+    
+    @Override
+    public int hashCode() {
+    	// TODO Auto-generated method stub
+    	return super.hashCode();
+    }
 
     /**
      * 

@@ -68,10 +68,6 @@ public class MP3File extends AudioFile {
      */
     private ID3v24Tag id3v2Asv24tag = null;
     /**
-     * The Lyrics3 tag that this file contains.
-     */
-    private AbstractLyrics3 lyrics3tag = null;
-    /**
      * The ID3v1 tag that this file contains.
      */
     private ID3v1Tag id3v1tag = null;
@@ -654,12 +650,6 @@ public class MP3File extends AudioFile {
             }
             rfile = new RandomAccessFile(file, "rw");
 
-            //Lyrics 3 Tag
-            if (TagOptionSingleton.getInstance().isLyrics3Save()) {
-                if (lyrics3tag != null) {
-                    lyrics3tag.write(rfile);
-                }
-            }
             //ID3v1 tag
             if (TagOptionSingleton.getInstance().isId3v1Save()) {
                 log.info("saving v1");

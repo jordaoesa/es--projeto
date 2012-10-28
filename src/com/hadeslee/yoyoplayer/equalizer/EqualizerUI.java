@@ -54,7 +54,7 @@ public class EqualizerUI extends JPanel implements ActionListener, ChangeListene
     private JPopupMenu mainpopup = null;
     public static final int LINEARDIST = 1;
     public static final int OVERDIST = 2;
-    private float[] bands = null;
+    private double[] bands = null;
     private int[] eqgains = null;
     private int eqdist = OVERDIST;
     private JToggleButton onoff,  auto;
@@ -168,7 +168,7 @@ public class EqualizerUI extends JPanel implements ActionListener, ChangeListene
      *
      * @param bands
      */
-    public void setBands(float[] bands) {
+    public void setBands(double[] bands) {
         if (this.bands != bands) {
             this.bands = bands;
             synchronizeEqualizer();
@@ -186,30 +186,30 @@ public class EqualizerUI extends JPanel implements ActionListener, ChangeListene
     public void updateBands(int[] gains, int min, int max) {
         if ((gains != null) && (bands != null)) {
             int j = 0;
-            float gvalj = (gains[j] * 2.0f / (max - min) * 1.0f) - 1.0f;
-            float gvalj1 = (gains[j + 1] * 2.0f / (max - min) * 1.0f) - 1.0f;
+            double gvalj = (double)(gains[j] * 2.0 / (max - min) * 1.0) - 1.0;
+            double gvalj1 = (double)(gains[j + 1] * 2.0 / (max - min) * 1.0) - 1.0;
             // Linear distribution : 10 values => 32 values.
             if (eqdist == LINEARDIST) {
-                float a = (gvalj1 - gvalj) * 1.0f;
-                float b = gvalj * 1.0f - (gvalj1 - gvalj) * j;
+                double a = (gvalj1 - gvalj) * 1.0;
+                double b = gvalj * 1.0 - (gvalj1 - gvalj) * j;
                 // x=s*x'
-                float s = (gains.length - 1) * 1.0f / (bands.length - 1) * 1.0f;
+                double s = (gains.length - 1) * 1.0 / (bands.length - 1) * 1.0;
                 for (int i = 0; i < bands.length; i++) {
-                    float ind = s * i;
+                    double ind = s * i;
                     if (ind > (j + 1)) {
                         j++;
-                        gvalj = (gains[j] * 2.0f / (max - min) * 1.0f) - 1.0f;
-                        gvalj1 = (gains[j + 1] * 2.0f / (max - min) * 1.0f) - 1.0f;
-                        a = (gvalj1 - gvalj) * 1.0f;
-                        b = gvalj * 1.0f - (gvalj1 - gvalj) * j;
+                        gvalj = (gains[j] * 2.0 / (max - min) * 1.0) - 1.0;
+                        gvalj1 = (gains[j + 1] * 2.0 / (max - min) * 1.0) - 1.0;
+                        a = (gvalj1 - gvalj) * 1.0;
+                        b = gvalj * 1.0 - (gvalj1 - gvalj) * j;
                     }
                     // a*x+b
-                    bands[i] = a * i * 1.0f * s + b;
+                    bands[i] = a * i * 1.0 * s + b;
                 }
             } // Over distribution : 10 values => 10 first value of 32 values.
             else if (eqdist == OVERDIST) {
                 for (int i = 0; i < gains.length; i++) {
-                    bands[i] = (gains[i] * 2.0f / (max - min) * 1.0f) - 1.0f;
+                    bands[i] = (double)(gains[i] * 2.0 / (max - min) * 1.0) - 1.0;
                 }
             }
         }

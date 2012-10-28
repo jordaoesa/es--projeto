@@ -236,6 +236,14 @@ public class FieldFrameBodyLYR extends AbstractLyrics3v2FieldFrameBody
         lines.add(line);
     }
 
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((lines == null) ? 0 : lines.hashCode());
+		return result;
+	}
+
     /**
      * 
      *
@@ -259,7 +267,7 @@ public class FieldFrameBodyLYR extends AbstractLyrics3v2FieldFrameBody
         return super.equals(obj);
     }
 
-    /**
+	/**
      * 
      *
      * @return 

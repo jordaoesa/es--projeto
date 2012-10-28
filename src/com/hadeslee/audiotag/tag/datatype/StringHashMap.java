@@ -120,6 +120,20 @@ public class StringHashMap extends StringFixedLength implements HashMapInterface
         }
     }
 
+
+
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (hasEmptyValue ? 1231 : 1237);
+		result = prime * result
+				+ ((keyToValue == null) ? 0 : keyToValue.hashCode());
+		result = prime * result
+				+ ((valueToKey == null) ? 0 : valueToKey.hashCode());
+		return result;
+	}
+
     /**
      * 
      *
@@ -173,7 +187,7 @@ public class StringHashMap extends StringFixedLength implements HashMapInterface
         return super.equals(obj);
     }
 
-    /**
+	/**
      * 
      *
      * @return

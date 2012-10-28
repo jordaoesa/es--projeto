@@ -27,6 +27,7 @@ import com.hadeslee.audiotag.tag.id3.AbstractTagFrameBody;
 import com.hadeslee.audiotag.tag.InvalidDataTypeException;
 import com.hadeslee.audiotag.audio.generic.Utils;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -141,6 +142,18 @@ public class Lyrics3Line
         timeStamp.add(time);
     }
 
+
+
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((lyric == null) ? 0 : lyric.hashCode());
+		result = prime * result
+				+ ((timeStamp == null) ? 0 : timeStamp.hashCode());
+		return result;
+	}
+
     /**
      * 
      *
@@ -165,7 +178,7 @@ public class Lyrics3Line
         return super.equals(obj);
     }
 
-    /**
+	/**
      * 
      *
      * @return 
@@ -247,7 +260,7 @@ public class Lyrics3Line
 
     public void readByteArray(byte[] arr, int offset) throws InvalidDataTypeException
     {
-        readString(arr.toString(), offset);
+        readString(Arrays.toString(arr), offset);
     }
 
     public byte[] writeByteArray()

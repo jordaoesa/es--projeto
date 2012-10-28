@@ -91,6 +91,19 @@ public class FrameBodyRVAD extends AbstractID3v2FrameBody implements ID3v23Frame
     {        
         throw new java.lang.UnsupportedOperationException("Method equals() not yet implemented.");
     }
+    
+    /**
+     * This method is not yet supported.
+     *
+     * @throws java.lang.UnsupportedOperationException
+     *          This method is not yet supported
+     *
+     * @todo Implement this java.lang.Object method
+     */
+    @Override
+    public int hashCode() {
+    	throw new java.lang.UnsupportedOperationException("Method hashCode() not yet implemented.");
+    }
 
 
     /**

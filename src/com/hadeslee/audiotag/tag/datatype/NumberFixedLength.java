@@ -115,6 +115,12 @@ public class NumberFixedLength
         }
         return super.equals(obj);
     }
+    
+    @Override
+    public int hashCode() {
+    	// TODO Auto-generated method stub
+    	return super.hashCode();
+    }
 
     /**
      * Read the number from the byte array

@@ -154,7 +154,8 @@ public class PlayListItem implements Serializable {
             if (bit <= 0) {
                 bitRate = Config.getResource("songinfo.unknown.bitrate");
             } else {
-                bit = Math.round((bit / 1000));
+            	float temp = (bit / 1000);
+                bit = Math.round(temp);
                 if (bit > 999) {
                     bit = (bit / 100);
                     bitRate = bit + "Hkbps";
@@ -173,7 +174,8 @@ public class PlayListItem implements Serializable {
             if (sam <= 0) {
                 sampled = Config.getResource("songinfo.unknown.samplerate");
             } else {
-                sampled = String.valueOf(Math.round((sam / 1000))) + "kHz";
+            	float temp = (sam / 1000);
+                sampled = String.valueOf(Math.round(temp)) + "kHz";
             }
         }
         return sampled;

@@ -90,6 +90,16 @@ public class ID3v2LyricLine extends AbstractDataType
     {
         return timeStamp;
     }
+    
+
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		result = prime * result + (int) (timeStamp ^ (timeStamp >>> 32));
+		return result;
+	}
 
     /**
      * 
@@ -119,7 +129,7 @@ public class ID3v2LyricLine extends AbstractDataType
         return super.equals(obj);
     }
 
-    /**
+	/**
      * 
      *
      * @param arr    
