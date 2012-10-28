@@ -540,7 +540,7 @@ public class FlacTag implements Tag
      */
     public TagField getFirstField(String id)
     {
-        if(id.equals(TagFieldKey.COVER_ART))
+        if(id.equals(String.valueOf(TagFieldKey.COVER_ART)))
         {
             if(images.size()>0)
             {

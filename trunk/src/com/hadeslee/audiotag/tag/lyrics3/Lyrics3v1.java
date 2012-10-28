@@ -154,6 +154,14 @@ public class Lyrics3v1 extends AbstractLyrics3
         return (((Lyrics3v1) obj).lyric.contains(this.lyric));
     }
 
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((lyric == null) ? 0 : lyric.hashCode());
+		return result;
+	}
+
     /**
      * 
      *
@@ -177,7 +185,7 @@ public class Lyrics3v1 extends AbstractLyrics3
         return super.equals(obj);
     }
 
-    /**
+	/**
      * 
      *
      * @return 

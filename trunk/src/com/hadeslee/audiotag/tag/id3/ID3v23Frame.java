@@ -266,6 +266,17 @@ public class ID3v23Frame extends AbstractID3v2Frame
         return frameBody.getSize() + ID3v23Frame.FRAME_HEADER_SIZE;
     }
 
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((validFrameIdentifier == null) ? 0 : validFrameIdentifier
+						.hashCode());
+		return result;
+	}
+
     /**
      * Compare for equality
      * To be deemed equal obj must be a IDv23Frame with the same identifier
@@ -294,7 +305,7 @@ public class ID3v23Frame extends AbstractID3v2Frame
         return super.equals(obj);
     }
 
-    /**
+	/**
      * Read the frame from a bytebuffer
      *
      * @param byteBuffer buffer to read from

@@ -119,6 +119,16 @@ public class FrameBodyUnsupported extends AbstractID3v2FrameBody implements ID3v
         return identifier;
     }
 
+
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((identifier == null) ? 0 : identifier.hashCode());
+		return result;
+	}
+
     /**
      * 
      *
@@ -140,8 +150,7 @@ public class FrameBodyUnsupported extends AbstractID3v2FrameBody implements ID3v
         return super.equals(obj);
     }
 
-
-    /**
+	/**
      * 
      * Because the contents of this frame are an array of bytes and could be large we just
      * return the identifier.

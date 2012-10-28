@@ -64,21 +64,20 @@ public class AudioChart extends JPanel implements KJDigitalSignalProcessor {
     private int height_2;
     // -- Spectrum analyser variables.
     private KJFFT fft;
-    private float[] old_FFT;
+    private double[] old_FFT;
     private int saFFTSampleSize;
     private int saBands;
-    private float saColorScale;
-    private float saMultiplier;
-    private float saDecay = DEFAULT_SPECTRUM_ANALYSER_DECAY;
-    private float sad;
+    private double saColorScale;
+    private double saMultiplier;
+    private double saDecay = DEFAULT_SPECTRUM_ANALYSER_DECAY;
     private SourceDataLine m_line = null;
     // -- VU Meter
-    private float oldLeft;
-    private float oldRight;
+    private double oldLeft;
+    private double oldRight;
     //  private float vuAverage;
     //  private float vuSamples;
-    private float vuDecay = DEFAULT_VU_METER_DECAY;
-    private float vuColorScale;
+    private double vuDecay = DEFAULT_VU_METER_DECAY;
+    private double vuColorScale;
     // -- FPS calulations.
     private long lfu = 0;
     private int fc = 0;
@@ -270,19 +269,19 @@ public class AudioChart extends JPanel implements KJDigitalSignalProcessor {
         }
     }
 
-    private void drawSpectrumAnalyser(Graphics pGrp, float[] pSample, float pFrrh) {
-        float c = 0;
+    private void drawSpectrumAnalyser(Graphics pGrp, float[] pSample, double pFrrh) {
+        double c = 0;
         float[] wFFT = fft.calculate(pSample);
-        float wSadfrr = (saDecay * pFrrh);
-        float wBw = ((float) width / (float) saBands);
+        double wSadfrr = (saDecay * pFrrh);
+        double wBw = ((double) width / (double) saBands);
         for (int a = 0,  bd = 0; bd < saBands; a += saMultiplier, bd++) {
-            float wFs = 0;
+            double wFs = 0;
             // -- Average out nearest bands.
             for (int b = 0; b < saMultiplier; b++) {
                 wFs += wFFT[a + b];
             }
             // -- Log filter.
-            wFs = (wFs * (float) Math.log(bd + 2));
+            wFs = (wFs * (double) Math.log(bd + 2));
             if (wFs > 1.0f) {
                 wFs = 1.0f;
             }
@@ -296,7 +295,14 @@ public class AudioChart extends JPanel implements KJDigitalSignalProcessor {
                 }
                 wFs = old_FFT[a];
             }
-            drawSpectrumAnalyserBar(pGrp, (int) c, height, (int) wBw - 1, (int) (wFs * height), bd);
+            Parameters parameters = new Parameters();
+            parameters.pGraphics = pGrp;
+            parameters.pX = (int)c;
+            parameters.pY = height;
+            parameters.pWidth = (int)wBw-1;
+            parameters.pHeight = (int)wFs*height;
+            parameters.band = bd;
+            drawSpectrumAnalyserBar(parameters);
             c += wBw;
         }
     }
@@ -305,9 +311,9 @@ public class AudioChart extends JPanel implements KJDigitalSignalProcessor {
         if (displayMode == DISPLAY_MODE_OFF) {
             return;
         }
-        float wLeft = 0.0f;
-        float wRight = 0.0f;
-        float wSadfrr = (vuDecay * pFrrh);
+        double wLeft = 0.0;
+        double wRight = 0.0;
+        double wSadfrr = (vuDecay * pFrrh);
         for (int a = 0; a < pLeft.length; a++) {
             wLeft += Math.abs(pLeft[a]);
             wRight += Math.abs(pRight[a]);
@@ -351,35 +357,35 @@ public class AudioChart extends JPanel implements KJDigitalSignalProcessor {
     //      pGrp.fillRect( 16, 64, (int)( oldRight * (float)( width - 32 ) ), wHeight );
     }
 
-    private void drawSpectrumAnalyserBar(Graphics pGraphics, int pX, int pY, int pWidth, int pHeight, int band) {
+    private void drawSpectrumAnalyserBar(Parameters parameters) {
         float c = 0;
-        for (int a = pY; a >= pY - pHeight; a -= barOffset) {
+        for (int a = parameters.pY; a >= parameters.pY - parameters.pHeight; a -= barOffset) {
             c += saColorScale;
             if (c < spectrumAnalyserColors.length) {
-                pGraphics.setColor(spectrumAnalyserColors[(int) c]);
+            	parameters.pGraphics.setColor(spectrumAnalyserColors[(int) c]);
             }
-            pGraphics.fillRect(pX, a, pWidth, 1);
+            parameters.pGraphics.fillRect(parameters.pX, a, parameters.pWidth, 1);
         }
         if ((peakColor != null) && (peaksEnabled == true)) {
-            pGraphics.setColor(peakColor);
-            if (pHeight > peaks[band]) {
-                peaks[band] = pHeight;
-                peaksDelay[band] = peakDelay;
+        	parameters.pGraphics.setColor(peakColor);
+            if (parameters.pHeight > peaks[parameters.band]) {
+                peaks[parameters.band] = parameters.pHeight;
+                peaksDelay[parameters.band] = peakDelay;
             } else {
-                peaksDelay[band]--;
-                if (peaksDelay[band] < 0) {
-                    peaks[band]--;
+                peaksDelay[parameters.band]--;
+                if (peaksDelay[parameters.band] < 0) {
+                    peaks[parameters.band]--;
                 }
-                if (peaks[band] < 0) {
-                    peaks[band] = 0;
+                if (peaks[parameters.band] < 0) {
+                    peaks[parameters.band] = 0;
                 }
             }
-            pGraphics.fillRect(pX, pY - peaks[band], pWidth, 1);
+            parameters.pGraphics.fillRect(parameters.pX, parameters.pY - peaks[parameters.band], parameters.pWidth, 1);
         }
     }
 
     private void drawVolumeMeterBar(Graphics pGraphics, int pX, int pY, int pWidth, int pHeight) {
-        float c = 0;
+        double c = 0;
         for (int a = pX; a <= pX + pWidth; a += 2) {
             c += vuColorScale;
             if (c < 256.0f) {
@@ -417,35 +423,35 @@ public class AudioChart extends JPanel implements KJDigitalSignalProcessor {
     /**
      * @return Returns the current display mode, DISPLAY_MODE_SCOPE or DISPLAY_MODE_SPECTRUM_ANALYSER.
      */
-    public int getDisplayMode() {
+    public synchronized int getDisplayMode() {
         return displayMode;
     }
 
     /**
      * @return Returns the current number of bands displayed by the spectrum analyser.
      */
-    public int getSpectrumAnalyserBandCount() {
+    public synchronized int getSpectrumAnalyserBandCount() {
         return saBands;
     }
 
     /**
      * @return Returns the decay rate of the spectrum analyser's bands.
      */
-    public float getSpectrumAnalyserDecay() {
-        return saDecay;
+    public synchronized float getSpectrumAnalyserDecay() {
+        return (float) saDecay;
     }
 
     /**
      * @return Returns the color the scope is rendered in.
      */
-    public Color getScopeColor() {
+    public synchronized Color getScopeColor() {
         return scopeColor;
     }
 
     /**
      * @return Returns the color scale used to render the spectrum analyser bars.
      */
-    public Color[] getSpectrumAnalyserColors() {
+    public synchronized Color[] getSpectrumAnalyserColors() {
         return spectrumAnalyserColors;
     }
 
@@ -611,7 +617,7 @@ public class AudioChart extends JPanel implements KJDigitalSignalProcessor {
     public synchronized void setSpectrumAnalyserFFTSampleSize(int pSize) {
         saFFTSampleSize = pSize;
         fft = new KJFFT(saFFTSampleSize);
-        old_FFT = new float[saFFTSampleSize];
+        old_FFT = new double[saFFTSampleSize];
         computeSAMultiplier();
     }
 
@@ -620,6 +626,15 @@ public class AudioChart extends JPanel implements KJDigitalSignalProcessor {
             pLeft[a] = (pLeft[a] + pRight[a]) / 2.0f;
         }
         return pLeft;
+    }
+    
+    private static class Parameters{
+    	Graphics pGraphics;
+    	int pX;
+    	int pY;
+    	int pWidth;
+    	int pHeight;
+    	int band;
     }
 
     /*public void update(Graphics pGraphics)

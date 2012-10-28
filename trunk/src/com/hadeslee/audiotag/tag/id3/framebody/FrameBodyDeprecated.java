@@ -53,28 +53,39 @@ public class FrameBodyDeprecated extends AbstractID3v2FrameBody implements ID3v2
         return originalFrameBody.getSize();
     }
 
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((originalFrameBody == null) ? 0 : originalFrameBody
+						.hashCode());
+		return result;
+	}
+    
     /**
-     *
-     *
-     * @param obj
-     * @return whether obj is equivalent to this object
-     */
-    public boolean equals(Object obj)
-    {
-        if ((obj instanceof FrameBodyDeprecated) == false)
-        {
-            return false;
-        }
+    *
+    *
+    * @param obj
+    * @return whether obj is equivalent to this object
+    */
+   public boolean equals(Object obj)
+   {
+       if ((obj instanceof FrameBodyDeprecated) == false)
+       {
+           return false;
+       }
 
-        FrameBodyDeprecated object = (FrameBodyDeprecated) obj;
-        if (this.getIdentifier().equals(object.getIdentifier()) == false)
-        {
-            return false;
-        }
-        return super.equals(obj);
-    }
+       FrameBodyDeprecated object = (FrameBodyDeprecated) obj;
+       if (this.getIdentifier().equals(object.getIdentifier()) == false)
+       {
+           return false;
+       }
+       return super.equals(obj);
+   }
 
-    /**
+	/**
      * Return the original framebody that was used to construct the DeprecatedFrameBody
      *
      * @return the original frameBody

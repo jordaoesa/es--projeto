@@ -111,9 +111,11 @@ public class Main extends JFrame implements Loader {
     public void loadJS() {
         BasicPlayer bplayer = new BasicPlayer();
         List mixers = bplayer.getMixers();
-        config.setMixers(mixers);
-        for (Object obj : mixers) {
-            log.log(Level.INFO, "可用的MIXER：" + obj);
+        if(mixers != null){
+        	config.setMixers(mixers);
+	        for (Object obj : mixers) {
+	            log.log(Level.INFO, "可用的MIXER：" + obj);
+	        }
         }
         if (mixers != null) {
             Iterator it = mixers.iterator();
@@ -575,10 +577,10 @@ public class Main extends JFrame implements Loader {
             win.setVisible(true);
             if (!config.isLinux() && isAlpha && WindowUtils.isWindowAlphaSupported()) {
 //                WindowUtils.setWindowTransparent(win, true);
-                for (float f = 0.f; f <= 1.0f; f += 0.1f) {
+                for (double f = 0.f; f <= 1.0; f += 0.1) {
                     try {
                         Thread.sleep(20);
-                        WindowUtils.setWindowAlpha(win, f);
+                        WindowUtils.setWindowAlpha(win, (float)f);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -588,10 +590,10 @@ public class Main extends JFrame implements Loader {
         } else {
             if (!config.isLinux() && isAlpha && WindowUtils.isWindowAlphaSupported()) {
 //                WindowUtils.setWindowTransparent(win, true);
-                for (float f = 1.0f; f >= 0; f -= 0.1f) {
+                for (double f = 1.0f; f >= 0; f -= 0.1f) {
                     try {
                         Thread.sleep(20);
-                        WindowUtils.setWindowAlpha(win, f);
+                        WindowUtils.setWindowAlpha(win, (float) f);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -613,13 +615,13 @@ public class Main extends JFrame implements Loader {
                 plWin.setLocation(now.x + dis.x, now.y + dis.y);
             }
         }
-        if (eqWin != null && (config.isSnapEqWindow()) || !eqWin.isShowing()) {
+        if (config != null && eqWin != null && (config.isSnapEqWindow()) || !eqWin.isShowing()) {
             Point dis = config.getDisEq();
             if (dis != null) {
                 eqWin.setLocation(now.x + dis.x, now.y + dis.y);
             }
         }
-        if (lrcWin != null && (config.isSnapLrcWindow()) || !lrcWin.isShowing()) {
+        if (config != null && lrcWin != null && (config.isSnapLrcWindow()) || !lrcWin.isShowing()) {
             Point dis = config.getDisLrc();
             if (dis != null) {
                 lrcWin.setLocation(now.x + dis.x, now.y + dis.y);

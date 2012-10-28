@@ -570,6 +570,27 @@ public class ID3v24Tag extends AbstractID3v2Tag
         return size;
     }
 
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + crcData;
+		result = prime * result + (crcDataFlag ? 1231 : 1237);
+		result = prime * result + (experimental ? 1231 : 1237);
+		result = prime * result + (extended ? 1231 : 1237);
+		result = prime * result + (footer ? 1231 : 1237);
+		result = prime * result + imageEncodingRestriction;
+		result = prime * result + imageSizeRestriction;
+		result = prime * result + paddingSize;
+		result = prime * result + (tagRestriction ? 1231 : 1237);
+		result = prime * result + tagSizeRestriction;
+		result = prime * result + textEncodingRestriction;
+		result = prime * result + textFieldSizeRestriction;
+		result = prime * result + (unsynchronization ? 1231 : 1237);
+		result = prime * result + (updateTag ? 1231 : 1237);
+		return result;
+	}
+
     /**
      * @param obj
      * @return equality
@@ -616,7 +637,7 @@ public class ID3v24Tag extends AbstractID3v2Tag
         return super.equals(obj);
     }
 
-    /**
+	/**
      * Read Tag from Specified file.
      * Read tag header, delegate reading of frames to readFrames()
      *

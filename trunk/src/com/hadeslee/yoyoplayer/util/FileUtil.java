@@ -34,9 +34,9 @@ import java.util.StringTokenizer;
 @SuppressWarnings("unchecked")
 public class FileUtil {
 
-    private static List supportedExtensions = null;
+    private List supportedExtensions = null;
 
-    public static File[] findFilesRecursively(File directory) {
+    public File[] findFilesRecursively(File directory) {
         if (directory.isFile()) {
             File[] f = new File[1];
             f[0] = directory;
@@ -47,7 +47,7 @@ public class FileUtil {
         return ((File[]) list.toArray(new File[list.size()]));
     }
 
-    private static void addSongsRecursive(List found, File rootDir) {
+    private void addSongsRecursive(List found, File rootDir) {
         if (rootDir == null) {
             return;
         } // we do not want waste time
@@ -67,7 +67,7 @@ public class FileUtil {
         }
     }
 
-    public static boolean isMusicFile(File f) {
+    public boolean isMusicFile(File f) {
         List exts = getSupportedExtensions();
         int sz = exts.size();
         String ext;
@@ -84,7 +84,7 @@ public class FileUtil {
         return false;
     }
 
-    public static List getSupportedExtensions() {
+    public List getSupportedExtensions() {
         if (supportedExtensions == null) {
             String ext = Config.getConfig().getExtensions();
             StringTokenizer st = new StringTokenizer(ext, ",");
@@ -96,7 +96,7 @@ public class FileUtil {
         return (supportedExtensions);
     }
 
-    public static String getSupprtedExtensions() {
+    public String getSupprtedExtensions() {
         List exts = getSupportedExtensions();
         StringBuffer s = new StringBuffer();
         int sz = exts.size();

@@ -309,6 +309,15 @@ public class ID3v22Tag
     }
 
 
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (compression ? 1231 : 1237);
+		result = prime * result + (unsynchronization ? 1231 : 1237);
+		return result;
+	}
+
     /**
      * 
      *
@@ -333,8 +342,7 @@ public class ID3v22Tag
         return super.equals(obj);
     }
 
-
-    /**
+	/**
      * Read tag from the ByteBuffer
      *
      * @param byteBuffer to read the tag from

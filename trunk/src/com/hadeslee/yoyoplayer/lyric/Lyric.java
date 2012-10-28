@@ -339,7 +339,8 @@ public class Lyric implements Serializable {
                 return;
             } else {
                 Sentence first = list.get(0);
-                list.add(0, new Sentence(info.getFormattedName(), 0, first.getFromTime()));
+                if(first != null)
+                	list.add(0, new Sentence(info.getFormattedName(), 0, first.getFromTime()));
             }
 
             int size = list.size();
@@ -812,7 +813,7 @@ public class Lyric implements Serializable {
         if (length > 0) {
             Sentence now = list.get(currentIndex);
             int nowWidth = now.getContentWidth(g);
-            float f = (time - now.getFromTime()) * 1.0f / (now.getToTime() - now.getFromTime());
+            double f = (time - now.getFromTime()) * 1.0f / (now.getToTime() - now.getFromTime());
             //先算出当前的这一句还剩多少长度了
             int rest = (int) ((1 - f) * nowWidth);
             long timeAdd = 0;//要加多少时间
@@ -882,7 +883,7 @@ public class Lyric implements Serializable {
         if (length > 0) {
             Sentence now = list.get(currentIndex);
             int nowHeight = now.getContentHeight(g);
-            float f = (time - now.getFromTime()) * 1.0f / (now.getToTime() - now.getFromTime());
+            double f = (time - now.getFromTime()) * 1.0f / (now.getToTime() - now.getFromTime());
             //先算出当前的这一句还剩多少长度了
             int rest = (int) ((1 - f) * nowHeight);
             long timeAdd = 0;//要加多少时间

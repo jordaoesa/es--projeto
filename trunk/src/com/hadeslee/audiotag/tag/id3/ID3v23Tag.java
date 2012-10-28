@@ -399,6 +399,21 @@ public class ID3v23Tag
         return size;
     }
 
+
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (compression ? 1231 : 1237);
+		result = prime * result + crcData;
+		result = prime * result + (crcDataFlag ? 1231 : 1237);
+		result = prime * result + (experimental ? 1231 : 1237);
+		result = prime * result + (extended ? 1231 : 1237);
+		result = prime * result + paddingSize;
+		result = prime * result + (unsynchronization ? 1231 : 1237);
+		return result;
+	}
+
     /**
      * Is Tag Equivalent to another tag
      *
@@ -435,8 +450,7 @@ public class ID3v23Tag
         return super.equals(obj);
     }
 
-
-    /**
+	/**
      * Read tag from File
      *
      * @param buffer The buffer to read the ID3v23 Tag from

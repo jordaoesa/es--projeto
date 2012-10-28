@@ -27,6 +27,7 @@ import com.hadeslee.audiotag.tag.InvalidTagException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 
 public class FieldFrameBodyUnsupported extends AbstractLyrics3v2FieldFrameBody
@@ -109,6 +110,14 @@ public class FieldFrameBodyUnsupported extends AbstractLyrics3v2FieldFrameBody
         return super.isSubsetOf(obj);
     }
 
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(value);
+		return result;
+	}
+
     /**
      * 
      *
@@ -132,7 +141,7 @@ public class FieldFrameBodyUnsupported extends AbstractLyrics3v2FieldFrameBody
         return super.equals(obj);
     }
 
-    /**
+	/**
      * 
      *
      * @param byteBuffer 

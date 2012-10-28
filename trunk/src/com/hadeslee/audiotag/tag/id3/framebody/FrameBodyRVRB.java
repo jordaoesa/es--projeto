@@ -89,6 +89,19 @@ public class FrameBodyRVRB extends AbstractID3v2FrameBody implements ID3v24Frame
     {
         super(body);
     }
+    
+    private static class ParameterObject{
+    	short reverbLeft;
+    	short reverbRight;
+    	byte reverbBouncesLeft;
+    	byte reverbBouncesRight;
+    	byte reverbFeedbackLeftToLeft; 
+    	byte reverbFeedbackLeftToRight;
+    	byte reverbFeedbackRightToRight;
+    	byte reverbFeedbackRightToLeft;
+    	byte premixLeftToRight;
+    	byte premixRightToLeft;
+    }
 
     /**
      * Creates a new FrameBodyRVRB datatype.
@@ -104,18 +117,18 @@ public class FrameBodyRVRB extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param premixLeftToRight          
      * @param premixRightToLeft          
      */
-    public FrameBodyRVRB(short reverbLeft, short reverbRight, byte reverbBouncesLeft, byte reverbBouncesRight, byte reverbFeedbackLeftToLeft, byte reverbFeedbackLeftToRight, byte reverbFeedbackRightToRight, byte reverbFeedbackRightToLeft, byte premixLeftToRight, byte premixRightToLeft)
+    public FrameBodyRVRB(ParameterObject object)
     {
-        this.setObjectValue(DataTypes.OBJ_REVERB_LEFT, reverbLeft);
-        this.setObjectValue(DataTypes.OBJ_REVERB_RIGHT, reverbRight);
-        this.setObjectValue(DataTypes.OBJ_REVERB_BOUNCE_LEFT, reverbBouncesLeft);
-        this.setObjectValue(DataTypes.OBJ_REVERB_BOUNCE_RIGHT, reverbBouncesRight);
-        this.setObjectValue(DataTypes.OBJ_REVERB_FEEDBACK_LEFT_TO_LEFT, reverbFeedbackLeftToLeft);
-        this.setObjectValue(DataTypes.OBJ_REVERB_FEEDBACK_LEFT_TO_RIGHT, reverbFeedbackLeftToRight);
-        this.setObjectValue(DataTypes.OBJ_REVERB_FEEDBACK_RIGHT_TO_RIGHT, reverbFeedbackRightToRight);
-        this.setObjectValue(DataTypes.OBJ_REVERB_FEEDBACK_RIGHT_TO_LEFT, reverbFeedbackRightToLeft);
-        this.setObjectValue(DataTypes.OBJ_PREMIX_LEFT_TO_RIGHT, premixLeftToRight);
-        this.setObjectValue(DataTypes.OBJ_PREMIX_RIGHT_TO_LEFT, premixRightToLeft);
+        this.setObjectValue(DataTypes.OBJ_REVERB_LEFT, object.reverbLeft);
+        this.setObjectValue(DataTypes.OBJ_REVERB_RIGHT, object.reverbRight);
+        this.setObjectValue(DataTypes.OBJ_REVERB_BOUNCE_LEFT, object.reverbBouncesLeft);
+        this.setObjectValue(DataTypes.OBJ_REVERB_BOUNCE_RIGHT, object.reverbBouncesRight);
+        this.setObjectValue(DataTypes.OBJ_REVERB_FEEDBACK_LEFT_TO_LEFT, object.reverbFeedbackLeftToLeft);
+        this.setObjectValue(DataTypes.OBJ_REVERB_FEEDBACK_LEFT_TO_RIGHT, object.reverbFeedbackLeftToRight);
+        this.setObjectValue(DataTypes.OBJ_REVERB_FEEDBACK_RIGHT_TO_RIGHT, object.reverbFeedbackRightToRight);
+        this.setObjectValue(DataTypes.OBJ_REVERB_FEEDBACK_RIGHT_TO_LEFT, object.reverbFeedbackRightToLeft);
+        this.setObjectValue(DataTypes.OBJ_PREMIX_LEFT_TO_RIGHT, object.premixLeftToRight);
+        this.setObjectValue(DataTypes.OBJ_PREMIX_RIGHT_TO_LEFT, object.premixRightToLeft);
     }
 
     /**

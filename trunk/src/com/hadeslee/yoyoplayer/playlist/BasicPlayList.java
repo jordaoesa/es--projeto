@@ -124,6 +124,7 @@ public class BasicPlayList implements PlayList {
             }
             loaded = true;
         } catch (Exception e) {
+        	System.err.println(e.getMessage());
         } finally {
             try {
                 if (br != null) {
@@ -211,6 +212,7 @@ public class BasicPlayList implements PlayList {
             }
             loaded = true;
         } catch (Exception e) {
+        	System.err.println(e.getMessage());
         } finally {
             try {
                 if (br != null) {

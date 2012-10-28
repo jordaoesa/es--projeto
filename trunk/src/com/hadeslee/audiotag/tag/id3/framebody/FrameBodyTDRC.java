@@ -48,38 +48,12 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
     private String date = "";
     private String reco = "";
 
-    private static SimpleDateFormat formatYearIn, formatYearOut;
-    private static SimpleDateFormat formatDateIn, formatDateOut;
-    private static SimpleDateFormat formatTimeIn, formatTimeOut;
-
-    private static final List<SimpleDateFormat> formatters = new ArrayList<SimpleDateFormat>();
-
     private static final int PRECISION_SECOND = 0;
     private static final int PRECISION_MINUTE = 1;
     private static final int PRECISION_HOUR = 2;
     private static final int PRECISION_DAY = 3;
     private static final int PRECISION_MONTH = 4;
     private static final int PRECISION_YEAR = 5;
-
-    static
-    {
-        //This is allowable v24 format
-        formatters.add(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
-        formatters.add(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"));
-        formatters.add(new SimpleDateFormat("yyyy-MM-dd'T'HH"));
-        formatters.add(new SimpleDateFormat("yyyy-MM-dd"));
-        formatters.add(new SimpleDateFormat("yyyy-MM"));
-        formatters.add(new SimpleDateFormat("yyyy"));
-
-        //These are formats used by v23 Frames
-        formatYearIn = new SimpleDateFormat("yyyy");
-        formatYearOut = new SimpleDateFormat("yyyy");
-        formatDateIn = new SimpleDateFormat("ddMM");
-        formatDateOut = new SimpleDateFormat("-MM-dd");
-        formatTimeIn = new SimpleDateFormat("HHmm");
-        formatTimeOut = new SimpleDateFormat("'T'HH:mm");
-
-    }
 
     /**
      * Creates a new FrameBodyTDRC datatype.
@@ -123,7 +97,7 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
             {
                 try
                 {
-                    sb.append(formatYearOut.format(formatYearIn.parse(year)));
+                    sb.append((new SimpleDateFormat("yyyy")).format((new SimpleDateFormat("yyyy")).parse(year)));
                 }
                 catch (ParseException e)
                 {
@@ -134,7 +108,7 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
             {
                 try
                 {
-                    sb.append(formatDateOut.format(formatDateIn.parse(date)));
+                    sb.append((new SimpleDateFormat("-MM-dd")).format((new SimpleDateFormat("ddMM")).parse(date)));
                 }
                 catch (ParseException e)
                 {
@@ -145,7 +119,7 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
             {
                 try
                 {
-                    sb.append(formatTimeOut.format(formatTimeIn.parse(time)));
+                    sb.append((new SimpleDateFormat("'T'HH:mm")).format((new SimpleDateFormat("HHmm")).parse(time)));
                 }
                 catch (ParseException e)
                 {
@@ -253,6 +227,8 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
     public FrameBodyTDRC(byte textEncoding, String text)
     {
         super(textEncoding, text);
+        List<SimpleDateFormat> formatters = new ArrayList<SimpleDateFormat>();
+    	initFormaters(formatters);
         //Find the date format of the text
         for (int i = 0; i < formatters.size(); i++)
         {
@@ -281,7 +257,10 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
     public FrameBodyTDRC(ByteBuffer byteBuffer, int frameSize)
         throws InvalidTagException
     {
-        super(byteBuffer, frameSize);
+    	
+    	super(byteBuffer, frameSize);
+    	List<SimpleDateFormat> formatters = new ArrayList<SimpleDateFormat>();
+    	initFormaters(formatters);
         //Store the equivalent ID3v23 values in case convert
 
         //Find the date format of the v24Frame
@@ -311,41 +290,50 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
         //Precision Year
         if (precision == PRECISION_YEAR)
         {
-            setYear(formatYearOut.format(d));
+            setYear((new SimpleDateFormat("yyyy")).format(d));
         }
         //Precision Month
         else if (precision == PRECISION_MONTH)
         {
-            setYear(formatYearOut.format(d));
+            setYear((new SimpleDateFormat("yyyy")).format(d));
         }
         //Precision Day
         else if (precision == PRECISION_DAY)
         {
-            setYear(formatYearOut.format(d));
-            setDate(formatDateOut.format(d));
+            setYear((new SimpleDateFormat("yyyy")).format(d));
+            setDate((new SimpleDateFormat("-MM-dd")).format(d));
         }
         //Precision Hour
         else if (precision == PRECISION_HOUR)
         {
-            setYear(formatYearOut.format(d));
-            setDate(formatDateOut.format(d));
+            setYear((new SimpleDateFormat("yyyy")).format(d));
+            setDate((new SimpleDateFormat("-MM-dd")).format(d));
 
         }
         //Precision Minute
         else if (precision == PRECISION_MINUTE)
         {
-            setYear(formatYearOut.format(d));
-            setDate(formatDateOut.format(d));
-            setTime(formatTimeOut.format(d));
+            setYear((new SimpleDateFormat("yyyy")).format(d));
+            setDate((new SimpleDateFormat("-MM-dd")).format(d));
+            setTime((new SimpleDateFormat("'T'HH:mm")).format(d));
         }
         //Precision Minute
         else if (precision == PRECISION_SECOND)
         {
-            setYear(formatYearOut.format(d));
-            setDate(formatDateOut.format(d));
-            setTime(formatTimeOut.format(d));
+            setYear((new SimpleDateFormat("yyyy")).format(d));
+            setDate((new SimpleDateFormat("-MM-dd")).format(d));
+            setTime((new SimpleDateFormat("'T'HH:mm")).format(d));
         }
     }
+    
+    private void initFormaters(List<SimpleDateFormat> formatters) {
+    	formatters.add(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+        formatters.add(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"));
+        formatters.add(new SimpleDateFormat("yyyy-MM-dd'T'HH"));
+        formatters.add(new SimpleDateFormat("yyyy-MM-dd"));
+        formatters.add(new SimpleDateFormat("yyyy-MM"));
+        formatters.add(new SimpleDateFormat("yyyy"));
+	}
 
      /**
       * The ID3v2 frame identifier

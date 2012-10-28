@@ -972,7 +972,8 @@ public class PlayerUI extends JPanel implements Playerable, ActionListener, Chan
         }
         // If it fails then try again with JavaSound SPI.
         if (total <= 0) {
-            total = (long) Math.round(getTimeLengthEstimation(audioInfo) / 1000);
+        	float temp = getTimeLengthEstimation(audioInfo) / 1000;
+            total = (long) Math.round(temp);
             currentItem.setDuration(total);
             playlistUI.repaint();
         }
@@ -1015,7 +1016,7 @@ public class PlayerUI extends JPanel implements Playerable, ActionListener, Chan
                 }
                 // EqualizerUI
                 if (properties.containsKey("mp3.equalizer")) {
-                    equalizerUI.setBands((float[]) properties.get("mp3.equalizer"));
+                    equalizerUI.setBands((double[]) properties.get("mp3.equalizer"));
                 }
                 if (total > 0) {
                     secondsAmount = (long) (total * progress);
@@ -1025,15 +1026,18 @@ public class PlayerUI extends JPanel implements Playerable, ActionListener, Chan
             } else if (audioformat.equalsIgnoreCase("wave")) {
                 secondsAmount = (long) (total * progress);
             } else {
-                secondsAmount = (long) Math.round(microseconds / 1000000);
+            	float temp = microseconds / 1000000;
+                secondsAmount = (long) Math.round(temp);
                 equalizerUI.setBands(null);
             }
         } else {
-            secondsAmount = (long) Math.round(microseconds / 1000000);
+        	float temp = microseconds / 1000000;
+            secondsAmount = (long) Math.round(temp);
             equalizerUI.setBands(null);
         }
         if (secondsAmount < 0) {
-            secondsAmount = (long) Math.round(microseconds / 1000000);
+        	float temp = microseconds / 1000000;
+            secondsAmount = (long) Math.round(temp);
         }
 //        //如果歌曲里面有位置的信息,则设置歌词
 //        if (properties.containsKey("mp3.position.microseconds")) {
@@ -1053,7 +1057,8 @@ public class PlayerUI extends JPanel implements Playerable, ActionListener, Chan
         // Update PosBar location.
         if (total != 0) {
             if (posValueJump == false) {
-                int pValue = (Math.round(secondsAmount * Config.POSBARMAX / total));
+            	float temp = secondsAmount * Config.POSBARMAX / total;
+                int pValue = (Math.round(temp));
                 pos.setValue(pValue);
             }
         } else {
@@ -1244,35 +1249,7 @@ public class PlayerUI extends JPanel implements Playerable, ActionListener, Chan
         } // Playlist ended.
         else {
             // Try to repeat ?
-            if (config.isRepeatEnabled()) {
-                if (playlist != null) {
-                    // PlaylistItems available ?
-                    if (playlist.getPlaylistSize() > 0) {
-                        playlist.begin();
-                        PlayListItem rpli = playlist.getCursor();
-                        if (rpli != null) {
-                            // OK, Repeat the playlist.
-                            rpli.getTagInfo();
-                            currentSongName = rpli.getFormattedName();
-                            currentFileOrURL = rpli.getLocation();
-                            currentIsFile = rpli.isFile();
-                            currentItem = rpli;
-                        }
-                    } // No, so display Title.
-                    else {
-                        currentSongName = Config.TITLETEXT;
-                        currentFileOrURL = null;
-                        currentIsFile = false;
-                        currentItem = null;
-                    }
-                }
-            } // No, so display Title.
-            else {
-                currentSongName = Config.TITLETEXT;
-                currentFileOrURL = null;
-                currentIsFile = false;
-                currentItem = null;
-            }
+        	tentaRepetir();
         }
         if (currentIsFile == true) {
             pos.setEnabled(true);
@@ -1296,7 +1273,39 @@ public class PlayerUI extends JPanel implements Playerable, ActionListener, Chan
 
     }
 
-    /**
+    private void tentaRepetir() {
+        if (config.isRepeatEnabled()) {
+            if (playlist != null) {
+                // PlaylistItems available ?
+                if (playlist.getPlaylistSize() > 0) {
+                    playlist.begin();
+                    PlayListItem rpli = playlist.getCursor();
+                    if (rpli != null) {
+                        // OK, Repeat the playlist.
+                        rpli.getTagInfo();
+                        currentSongName = rpli.getFormattedName();
+                        currentFileOrURL = rpli.getLocation();
+                        currentIsFile = rpli.isFile();
+                        currentItem = rpli;
+                    }
+                } // No, so display Title.
+                else {
+                    currentSongName = Config.TITLETEXT;
+                    currentFileOrURL = null;
+                    currentIsFile = false;
+                    currentItem = null;
+                }
+            }
+        } // No, so display Title.
+        else {
+            currentSongName = Config.TITLETEXT;
+            currentFileOrURL = null;
+            currentIsFile = false;
+            currentItem = null;
+        }
+	}
+
+	/**
      * 在这里显示一些常用的东西
      * 比如改变标题,以及时间清0,还有,歌曲信息的改变
      * 比如比特率,单双声道等全部重置,因为一首新的歌曲要开始了
@@ -1420,7 +1429,8 @@ public class PlayerUI extends JPanel implements Playerable, ActionListener, Chan
                     }
                     if ((lenghtInSecond <= 0) && (audioInfo.containsKey("audio.length.bytes"))) {
                         // Try to compute time length.
-                        lenghtInSecond = (long) Math.round(getTimeLengthEstimation(audioInfo) / 1000);
+                    	float temp = getTimeLengthEstimation(audioInfo) / 1000;
+                        lenghtInSecond = (long) Math.round(temp);
                         if (lenghtInSecond > 0) {
                             int minutes = (int) Math.floor(lenghtInSecond / 60);
                             int hours = (int) Math.floor(minutes / 60);
@@ -1433,7 +1443,8 @@ public class PlayerUI extends JPanel implements Playerable, ActionListener, Chan
                             }
                         }
                     }
-                    bitRate = Math.round((bitRate / 1000));
+                    float temp = (float) bitRate / 1000;
+                    bitRate = Math.round(temp);
                     currentItem.setSampled(String.valueOf(Math.round((sampleRate / 1000))) + "kHz");
                     if (bitRate > 999) {
                         bitRate = (bitRate / 100);

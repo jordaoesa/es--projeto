@@ -211,7 +211,6 @@ public class PlayListUI extends JPanel implements ActionListener, MouseListener,
         jsp1.setBorder(new EmptyBorder(0, 0, 0, 0));
         jsp2.setBorder(new EmptyBorder(0, 0, 0, 0));
 
-        Color backgdColor = new Color(236, 233, 216);
         UIDefaults uidefs = UIManager.getLookAndFeelDefaults();
         uidefs.put("SplitPane.background", new ColorUIResource(BG));
 //        uidefs.put("SplitPane.background", new ColorUIResource(backgdColor));
@@ -276,7 +275,7 @@ public class PlayListUI extends JPanel implements ActionListener, MouseListener,
                     }
 
                     public boolean isDataFlavorSupported(DataFlavor flavor) {
-                        return flavor.equals(flavor);
+                    	return true; //faz o mesmo que a comparacao anterior fazia
                     }
 
                     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {

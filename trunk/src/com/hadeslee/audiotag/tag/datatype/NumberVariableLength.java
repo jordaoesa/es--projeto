@@ -132,6 +132,16 @@ public class NumberVariableLength extends AbstractDataType
         }
     }
 
+
+
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + minLength;
+		return result;
+	}
+
     /**
      * 
      *
@@ -155,7 +165,7 @@ public class NumberVariableLength extends AbstractDataType
         return super.equals(obj);
     }
 
-    /**
+	/**
      * Read from Byte Array
      *
      * @param arr

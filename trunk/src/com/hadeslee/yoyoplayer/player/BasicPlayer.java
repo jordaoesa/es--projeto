@@ -93,19 +93,24 @@ public class BasicPlayer implements BasicController, Runnable {
      */
     public BasicPlayer() {
         m_dataSource = null;
-        laucher = new BasicPlayerEventLauncher();
+        startThread();
+    }
+    
+    private void startThread() {
+    	laucher = new BasicPlayerEventLauncher();
         laucher.start();
         reset();
-    }
+	}
 
     protected void reset() {
         m_status = UNKNOWN;
         if (m_audioInputStream != null) {
             synchronized (m_audioInputStream) {
                 closeStream();
+                m_audioInputStream = null;
             }
         }
-        m_audioInputStream = null;
+        
         m_audioFileFormat = null;
         m_encodedaudioInputStream = null;
         encodedLength = -1;
@@ -887,7 +892,7 @@ public class BasicPlayer implements BasicController, Runnable {
     public void setGain(double fGain) throws BasicPlayerException {
         if (hasGainControl()) {
             double minGainDB = getMinimumGain();
-            double ampGainDB = ((10.0f / 20.0f) * getMaximumGain()) - getMinimumGain();
+            double ampGainDB = (double)((10.0 / 20.0) * getMaximumGain()) - getMinimumGain();
             double cste = Math.log(10.0) / 20;
             double valueDB = minGainDB + (1 / cste) * Math.log(1 + (Math.exp(cste * ampGainDB) - 1) * fGain);
             log.finest("Gain : " + valueDB);
